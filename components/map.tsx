@@ -14,8 +14,8 @@ const ChangeMapCenter = ({ position }: { position: LatLng }) => {
 }
 
 export const MapComponent: FC<
-  ComponentProps<"div"> & { location: GeolocationPosition }
-> = ({ location, ...props }) => {
+  ComponentProps<"div"> & { location: GeolocationPosition; type: string }
+> = ({ location, type = "std", ...props }) => {
   const [position, setPosition] = useState<LatLng>()
   useEffect(() => {
     setPosition(new LatLng(location.coords.latitude, location.coords.longitude))
@@ -33,7 +33,7 @@ export const MapComponent: FC<
           >
             <TileLayer
               attribution='&copy; <a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>'
-              url="https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png"
+              url={`https://cyberjapandata.gsi.go.jp/xyz/${type}/{z}/{x}/{y}.png`}
             />
             <Marker
               position={position}
