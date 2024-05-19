@@ -11,6 +11,7 @@ const MapComponent = dynamic(() => import("@/components/map"), {
 
 const HomePage: NextPage = () => {
   const [location, setLocation] = useState<GeolocationPosition>()
+  const [type, setType] = useState<string>("std")
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -25,7 +26,25 @@ const HomePage: NextPage = () => {
           margin: "auto",
         }}
       >
-        {location && <MapComponent location={location} type={"std"} />}
+        {location && <MapComponent location={location} type={type} />}
+        <div
+          style={{
+            bottom: 0,
+            position: "fixed",
+            left: 0,
+            zIndex: 1000,
+          }}
+        >
+          <select
+            onChange={({ target: { value } }) => setType(value)}
+            value={type}
+          >
+            <option value="std">ベースマップ</option>
+            <option value="blank">白地図</option>
+            <option value="lndst">全国ランドサットモザイク画像</option>
+            <option value="relief">色別標高図</option>
+          </select>
+        </div>
       </section>
     </>
   )
